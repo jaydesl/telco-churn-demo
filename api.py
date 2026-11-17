@@ -36,18 +36,15 @@ def predict_schema():
     """Describe the expected fields for /predict."""
     return Customer.model_json_schema()
 
+
 @app.get("/health")
 def health():
-    """ Check health of service """
+    """Check health of service"""
     try:
-        c = Customer(
-            monthly=1,
-            tenure=1,
-            techsupport=1
-        )
+        c = Customer(monthly=1, tenure=1, techsupport=1)
 
         make_prediction(**c.model_dump())
-    except:
+    except TypeError:
         return {"healthy": "false"}
-    
+
     return {"healthy": "true"}
